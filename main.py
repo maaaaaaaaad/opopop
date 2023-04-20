@@ -1,20 +1,29 @@
-import numpy as np
-import matplotlib.pyplot as plt
+import heapq
 
-x_min, x_max = -np.pi, np.pi
-y_min, y_max = -1.2, 1.2
-x = np.arange(x_min, x_max, 0.01)
-sin_data = np.sin(x)
-cos_data = np.cos(x)
-tan_data = np.tan(x)
-fig, ax = plt.subplots()
-ax.set_title('graph of trigonometric functions')
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-ax.set_xlim([x_min, x_max])
-ax.set_ylim([y_min, y_max])
-ax.plot(x, sin_data, color='red', label='sin(x)')
-ax.plot(x, cos_data, color='green', label='cos(x)')
-ax.plot(x, tan_data, color='blue', label='tan(x)')
-ax.legend()
-plt.show()
+def dijkstra(graph, start):
+    n = len(graph)
+    dist = [float('inf')] * n
+    dist[start] = 0
+    q = [(0, start)]
+    while q:
+        cost, u = heapq.heappop(q)
+        if dist[u] < cost:
+            continue
+        for v, w in graph[u]:
+            if new_cost := dist[u] + w; new_cost < dist[v]:
+                dist[v] = new_cost
+                heapq.heappush(q, (new_cost, v))
+    return dist
+
+graph = [
+    [(1, 2), (2, 5)],
+    [(0, 2), (2, 4), (3, 6)],
+    [(0, 5), (1, 4), (3, 2), (4, 3)],
+    [(1, 6), (2, 2), (4, 7)],
+    [(2, 3), (3, 7), (5, 1)],
+    [(4, 1)],
+]
+start = 0
+dist = dijkstra(graph, start)
+for i, d in enumerate(dist):
+    print(f"노드 {i}까지의 최단 거리: {d}")
